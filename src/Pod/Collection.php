@@ -8,6 +8,17 @@ class Collection extends Pod implements \IteratorAggregate, \Countable
 {
     protected array $items = [];
 
+    public function __construct(array $items = [])
+    {
+        foreach($items as $key => $item) {
+            if(!\is_string($key)) {
+                $key = null;
+            }
+
+            $this->add($item, $key);
+        }
+    }
+
     public function add(mixed $item, ?string $key = null): void
     {
         $this->validateType($item);
