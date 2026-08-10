@@ -1,13 +1,16 @@
 {
 	"name": "xchert/util",
 	"type": "library",
-	"description": "Common utils for PHP development",
+	"description": "Lightweight PHP utility library for structured data handling, JSON operations, reflection helpers, type utilities and more common tasks.",
 	"keywords": [
-		"struct",
+		"utility",
+		"utilities",
 		"json",
 		"reflection",
-		"type",
-		"util"
+		"types",
+		"structured-data",
+		"data-structures",
+		"helpers"
 	],
 	"license": "MIT",
 	"authors": [
@@ -15,6 +18,11 @@
 			"name": "Dustin Simon"
 		}
 	],
+	"support": {
+		"issues": "https://github.com/x-chert/util/issues",
+		"source": "https://github.com/x-chert/util"
+	},
+	"prefer-stable": true,
 	"autoload": {
 		"psr-4": {
 			"Xchert\\Util\\": "src/"
