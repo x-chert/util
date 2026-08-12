@@ -1,3 +1,9 @@
+# v1.0.1
+### Documentation
+
+* [#12 - Cleanup changelog file](https://github.com/x-chert/util/pull/12)
+
+
 # v1.0.0
 
 ### Documentation
