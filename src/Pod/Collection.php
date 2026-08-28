@@ -10,8 +10,8 @@ class Collection extends Pod implements \IteratorAggregate, \Countable
 
     public function __construct(array $items = [])
     {
-        foreach($items as $key => $item) {
-            if(!\is_string($key)) {
+        foreach ($items as $key => $item) {
+            if (!\is_string($key)) {
                 $key = null;
             }
 
@@ -23,12 +23,12 @@ class Collection extends Pod implements \IteratorAggregate, \Countable
     {
         $this->validateType($item);
 
-        if($key === null) {
+        if ($key === null) {
             $key = $this->createKey($item);
 
-            if($key === null) {
+            if ($key === null) {
                 $this->items[] = $item;
-                
+
                 return;
             }
         }
@@ -43,7 +43,7 @@ class Collection extends Pod implements \IteratorAggregate, \Countable
 
     public function get(string|int $key): mixed
     {
-        if(\is_int($key)) {
+        if (\is_int($key)) {
             return \array_values($this->items)[$key] ?? null;
         }
 
@@ -79,7 +79,7 @@ class Collection extends Pod implements \IteratorAggregate, \Countable
     {
         try {
             $new = (new \ReflectionClass(static::class))->newInstanceWithoutConstructor();
-        } catch(\ReflectionException $e) {
+        } catch (\ReflectionException $e) {
             throw new \RuntimeException($e->getMessage());
         }
 
@@ -120,7 +120,7 @@ class Collection extends Pod implements \IteratorAggregate, \Countable
 
     protected function validateType(mixed $item): void
     {
-        if(!$this->supports($item)) {
+        if (!$this->supports($item)) {
             throw new \InvalidArgumentException(\sprintf('Item of type %s is not supported.', \get_debug_type($item)));
         }
     }

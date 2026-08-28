@@ -6,7 +6,7 @@ class Reflection
 {
     public static function getProperty(\ReflectionClass $class, string $property, bool $ignoreStatic = true): ?\ReflectionProperty
     {
-        if($class->hasProperty($property)) {
+        if ($class->hasProperty($property)) {
             $p = $class->getProperty($property);
 
             return (($ignoreStatic && !$p->isStatic()) || !$ignoreStatic) ? $p : null;
@@ -21,8 +21,8 @@ class Reflection
     {
         $properties = [];
 
-        foreach($class->getProperties() as $reflectionProperty) {
-            if($ignoreStatic && $reflectionProperty->isStatic()) {
+        foreach ($class->getProperties() as $reflectionProperty) {
+            if ($ignoreStatic && $reflectionProperty->isStatic()) {
                 continue;
             }
 
@@ -31,9 +31,9 @@ class Reflection
 
         $parentClass = $class->getParentClass();
 
-        if($parentClass instanceof \ReflectionClass) {
-            foreach(static::getProperties($parentClass, $ignoreStatic) as $reflectionProperty) {
-                if(!isset($properties[$reflectionProperty->getName()])) {
+        if ($parentClass instanceof \ReflectionClass) {
+            foreach (static::getProperties($parentClass, $ignoreStatic) as $reflectionProperty) {
+                if (!isset($properties[$reflectionProperty->getName()])) {
                     $properties[$reflectionProperty->getName()] = $reflectionProperty;
                 }
             }
@@ -44,7 +44,7 @@ class Reflection
 
     public static function getMethod(\ReflectionClass $class, string $method, bool $ignoreStatic = true): ?\ReflectionMethod
     {
-        if($class->hasMethod($method)) {
+        if ($class->hasMethod($method)) {
             $m = $class->getMethod($method);
 
             return ($ignoreStatic && !$m->isStatic()) || !$ignoreStatic ? $m : null;

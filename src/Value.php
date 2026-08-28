@@ -6,13 +6,13 @@ class Value
 {
     public static function isNormalized(mixed $value): bool
     {
-        if(Type::isScalar($value)) {
+        if (Type::isScalar($value)) {
             return true;
         }
 
-        if(\is_array($value)) {
-            foreach($value as $v) {
-                if(!static::isNormalized($v)) {
+        if (\is_array($value)) {
+            foreach ($value as $v) {
+                if (!static::isNormalized($v)) {
                     return false;
                 }
             }
@@ -25,11 +25,11 @@ class Value
 
     public static function isEmpty(mixed $value, bool $considerWhitespacesAsEmpty = true): bool
     {
-        if(\is_string($value) && $considerWhitespacesAsEmpty) {
+        if (\is_string($value) && $considerWhitespacesAsEmpty) {
             $value = \trim($value);
         }
 
-        if(!empty($value)) {
+        if (!empty($value)) {
             return false;
         }
 
@@ -40,7 +40,7 @@ class Value
     {
         try {
             return Json::decode(Json::encode($value));
-        } catch(\JsonException $e) {
+        } catch (\JsonException $e) {
             throw new \RuntimeException($e->getMessage());
         }
     }

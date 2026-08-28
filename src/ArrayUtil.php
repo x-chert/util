@@ -6,7 +6,7 @@ class ArrayUtil
 {
     public static function ensure(mixed $value): array
     {
-        if(\is_array($value)) {
+        if (\is_array($value)) {
             return $value;
         }
 
@@ -15,13 +15,13 @@ class ArrayUtil
 
     public static function iteratorToArray(iterable $iterable): array
     {
-        if(\is_array($iterable)) {
+        if (\is_array($iterable)) {
             return $iterable;
         }
 
         $result = [];
 
-        foreach($iterable as $key => $value) {
+        foreach ($iterable as $key => $value) {
             $result[$key] = $value;
         }
 
@@ -32,14 +32,14 @@ class ArrayUtil
     {
         $result = [];
 
-        foreach($data as $index => $value) {
-            if(\is_object($value) && !$value instanceof \UnitEnum) {
+        foreach ($data as $index => $value) {
+            if (\is_object($value) && !$value instanceof \UnitEnum) {
                 $result[$index] = clone $value;
 
                 continue;
             }
 
-            if(\is_array($value)) {
+            if (\is_array($value)) {
                 $result[$index] = static::clone($value);
 
                 continue;

@@ -11,7 +11,7 @@ class Pod implements \JsonSerializable
         try {
             $self = (new \ReflectionClass(static::class))
                 ->newInstanceWithoutConstructor();
-        } catch(\ReflectionException $e) {
+        } catch (\ReflectionException $e) {
             throw new \RuntimeException($e->getMessage());
         }
 
@@ -22,10 +22,10 @@ class Pod implements \JsonSerializable
 
     public function allocate(array $data): void
     {
-        foreach($data as $key => $value) {
+        foreach ($data as $key => $value) {
             try {
                 $this->$key = $value;
-            } catch(\Throwable $error) {
+            } catch (\Throwable $error) {
                 // do nothing
             }
         }
@@ -35,8 +35,8 @@ class Pod implements \JsonSerializable
     {
         $data = \get_object_vars($this);
 
-        foreach($data as &$value) {
-            if($value instanceof \DateTimeInterface) {
+        foreach ($data as &$value) {
+            if ($value instanceof \DateTimeInterface) {
                 $value = $value->format(\DateTimeInterface::RFC3339_EXTENDED);
             }
         }
@@ -51,14 +51,14 @@ class Pod implements \JsonSerializable
 
     public function __clone(): void
     {
-        foreach(\get_object_vars($this) as $key => $value) {
-            if(\is_object($value) && !$value instanceof \UnitEnum) {
+        foreach (\get_object_vars($this) as $key => $value) {
+            if (\is_object($value) && !$value instanceof \UnitEnum) {
                 $this->$key = clone $this->$key;
 
                 continue;
             }
 
-            if(\is_array($value)) {
+            if (\is_array($value)) {
                 $this->$key = ArrayUtil::clone($value);
             }
         }
