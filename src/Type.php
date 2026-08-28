@@ -36,10 +36,10 @@ class Type
 
     public static function getType(mixed $value): string
     {
-        foreach(self::DATA_TYPES as $type) {
+        foreach (self::DATA_TYPES as $type) {
             $isType = \sprintf('is_%s', $type);
 
-            if($isType($value)) {
+            if ($isType($value)) {
                 return $type;
             }
         }
@@ -54,19 +54,19 @@ class Type
 
     public static function is(mixed $value, string $type): bool
     {
-        if(\class_exists($type) || \interface_exists($type)) {
+        if (\class_exists($type) || \interface_exists($type)) {
             return $value instanceof $type;
         }
 
         $isFunction = \sprintf("is_%s", $type);
 
-        if($type !== self::NUMERIC && \function_exists($isFunction)) {
+        if ($type !== self::NUMERIC && \function_exists($isFunction)) {
             return $isFunction($value);
         }
 
         $valueType = self::getType($value);
 
-        if($type === self::NUMERIC) {
+        if ($type === self::NUMERIC) {
             return self::isNumericType($valueType);
         }
 
@@ -98,7 +98,7 @@ class Type
      */
     public static function validate(mixed $value, string $type): void
     {
-        if(!static::is($value, $type)) {
+        if (!static::is($value, $type)) {
             throw new InvalidTypeException($type, \get_debug_type($value));
         }
     }
