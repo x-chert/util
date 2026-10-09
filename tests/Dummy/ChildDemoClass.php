@@ -1,6 +1,6 @@
 <?php
 
-namespace Xchert\Util\Test\Classes;
+namespace Xchert\Util\Test\Dummy;
 
 class ChildDemoClass extends DemoClass
 {

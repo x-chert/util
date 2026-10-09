@@ -2,206 +2,57 @@
 
 namespace Xchert\Util\Test;
 
+use PHPUnit\Framework\Attributes\DataProviderExternal;
 use PHPUnit\Framework\TestCase;
-use ReflectionClass;
-use ReflectionProperty;
 use Xchert\Util\Reflection;
-use Xchert\Util\Test\Classes\ChildDemoClass;
-use Xchert\Util\Test\Classes\DemoClass;
+use Xchert\Util\Test\Data\FileDataProvider;
 
 class ReflectionTest extends TestCase
 {
-    public function testGetPropertyReturnsPublicProperty(): void
-    {
-        $class = new ReflectionClass(new DemoClass());
-        $property = Reflection::getProperty($class, 'publicProperty');
 
-        $this->assertInstanceOf(ReflectionProperty::class, $property);
-        $this->assertSame('publicProperty', $property->getName());
+    #[DataProviderExternal(FileDataProvider::class, 'reflection_get_property')]
+    public function testGetProperty(object $object, string $propertyName, bool $ignoreStatic, bool $found): void
+    {
+        $property = Reflection::getProperty(new \ReflectionClass($object), $propertyName, $ignoreStatic);
+
+        if ($found === false) {
+            $this->assertNull($property);
+            return;
+        }
+
+        $this->assertSame($propertyName, $property->getName());
     }
 
-    public function testGetPropertyIgnoresStaticProperty(): void
+    #[DataProviderExternal(FileDataProvider::class, 'reflection_get_properties')]
+    public function testGetProperties(object $object, array $expected, bool $ignoreStatic): void
     {
-        $class = new ReflectionClass(new DemoClass());
-        $property = Reflection::getProperty($class, 'staticPublicProperty', true);
+        $properties = Reflection::getProperties(new \ReflectionClass($object), $ignoreStatic);
 
-        $this->assertNull($property);
-    }
-
-    public function testGetPropertyReturnsStaticProperty(): void
-    {
-        $class = new ReflectionClass(new DemoClass());
-        $property = Reflection::getProperty($class, 'staticPublicProperty', false);
-
-        $this->assertInstanceOf(ReflectionProperty::class, $property);
-        $this->assertSame('staticPublicProperty', $property->getName());
-    }
-
-    public function testGetPropertyReturnsProtectedProperty(): void
-    {
-        $class = new ReflectionClass(new DemoClass());
-        $property = Reflection::getProperty($class, 'protectedProperty');
-
-        $this->assertInstanceOf(ReflectionProperty::class, $property);
-        $this->assertSame('protectedProperty', $property->getName());
-    }
-
-    public function testGetPropertyReturnsPublicPropertyFromParentClass(): void
-    {
-        $class = new ReflectionClass(new ChildDemoClass());
-        $property = Reflection::getProperty($class, 'publicProperty');
-
-        $this->assertInstanceOf(ReflectionProperty::class, $property);
-        $this->assertSame('publicProperty', $property->getName());
-    }
-
-    public function testGetPropertyReturnsProtectedPropertyFromParentClass(): void
-    {
-        $class = new ReflectionClass(new ChildDemoClass());
-        $property = Reflection::getProperty($class, 'protectedProperty');
-
-        $this->assertInstanceOf(ReflectionProperty::class, $property);
-        $this->assertSame('protectedProperty', $property->getName());
-    }
-
-    public function testGetPropertyReturnsPrivatePropertyFromParentClass(): void
-    {
-        $class = new ReflectionClass(new ChildDemoClass());
-        $property = Reflection::getProperty($class, 'privateProperty');
-
-        $this->assertInstanceOf(ReflectionProperty::class, $property);
-        $this->assertSame('privateProperty', $property->getName());
-    }
-
-    public function testGetPropertyReturnsNullForNonExistentProperty(): void
-    {
-        $class = new ReflectionClass(new DemoClass());
-        $property = Reflection::getProperty($class, 'nonExistentProperty');
-
-        $this->assertNull($property);
-    }
-
-    public function testGetPropertiesFindsAllProperties(): void
-    {
-        $class = new ReflectionClass(new DemoClass());
-        $properties = Reflection::getProperties($class);
-
-        $this->assertEquals(
-            [
-                'publicProperty',
-                'protectedProperty',
-                'privateProperty',
-            ],
+        $this->assertEqualsCanonicalizing(
+            $expected,
             \array_keys($properties)
         );
     }
 
-    public function testGetPropertiesFindsAllPropertiesIncludingParent(): void
+    #[DataProviderExternal(FileDataProvider::class, 'reflection_get_method')]
+    public function testGetMethod(object $object, string $methodName, bool $ignoreStatic, bool $found): void
     {
-        $class = new ReflectionClass(new ChildDemoClass());
-        $properties = Reflection::getProperties($class);
+        $method = Reflection::getMethod(new \ReflectionClass($object), $methodName, $ignoreStatic);
 
-        $this->assertEquals(
-            [
-                'childPublicProperty',
-                'childProtectedProperty',
-                'childPrivateProperty',
-                'publicProperty',
-                'protectedProperty',
-                'privateProperty',
-            ],
-            \array_keys($properties)
-        );
+        if ($found === false) {
+            $this->assertNull($method);
+
+            return;
+        }
+
+        $this->assertEquals($methodName, $method->getName());
     }
 
-    public function testGetPropertiesFindsAllPropertiesIncludingStatic(): void
+    #[DataProviderExternal(FileDataProvider::class, 'reflection_instantiate')]
+    public function testInstantiate(string $class, ?object $expected): void
     {
-        $class = new ReflectionClass(new DemoClass());
-        $properties = Reflection::getProperties($class, false);
+        $object = Reflection::instantiate(new \ReflectionClass($class));
 
-        $this->assertEquals(
-            [
-                'staticPublicProperty',
-                'staticProtectedProperty',
-                'publicProperty',
-                'protectedProperty',
-                'privateProperty',
-            ],
-            \array_keys($properties)
-        );
-    }
-
-    public function testGetPropertiesFindsAllPropertiesIncludingParentAndStatic(): void
-    {
-        $class = new ReflectionClass(new ChildDemoClass());
-        $properties = Reflection::getProperties($class, false);
-
-        $this->assertEquals(
-            [
-                'childPublicProperty',
-                'childProtectedProperty',
-                'childPrivateProperty',
-                'staticPublicProperty',
-                'staticProtectedProperty',
-                'publicProperty',
-                'protectedProperty',
-                'privateProperty',
-            ],
-            \array_keys($properties)
-        );
-    }
-
-    public function testGetMethodReturnsPublicMethod(): void
-    {
-        $class = new ReflectionClass(new DemoClass());
-        $method = Reflection::getMethod($class, 'publicMethod');
-
-        $this->assertNotNull($method);
-        $this->assertEquals('publicMethod', $method->getName());
-    }
-
-    public function testGetMethodReturnsProtectedMethod(): void
-    {
-        $class = new ReflectionClass(new DemoClass());
-        $method = Reflection::getMethod($class, 'protectedMethod');
-
-        $this->assertNotNull($method);
-        $this->assertEquals('protectedMethod', $method->getName());
-    }
-
-    public function testGetMethodReturnsPrivateMethod(): void
-    {
-        $class = new ReflectionClass(new DemoClass());
-        $method = Reflection::getMethod($class, 'privateMethod');
-
-        $this->assertNotNull($method);
-        $this->assertEquals('privateMethod', $method->getName());
-    }
-
-    public function testGetMethodReturnsParentPublicMethod(): void
-    {
-        $class = new ReflectionClass(new ChildDemoClass());
-        $method = Reflection::getMethod($class, 'publicMethod');
-
-        $this->assertNotNull($method);
-        $this->assertEquals('publicMethod', $method->getName());
-    }
-
-    public function testGetMethodReturnsParentProtectedMethod(): void
-    {
-        $class = new ReflectionClass(new ChildDemoClass());
-        $method = Reflection::getMethod($class, 'protectedMethod');
-
-        $this->assertNotNull($method);
-        $this->assertEquals('protectedMethod', $method->getName());
-    }
-
-    public function testGetMethodReturnsParentPrivateMethod(): void
-    {
-        $class = new ReflectionClass(new ChildDemoClass());
-        $method = Reflection::getMethod($class, 'privateMethod');
-
-        $this->assertNotNull($method);
-        $this->assertEquals('privateMethod', $method->getName());
+        $this->assertEquals($expected, $object);
     }
 }

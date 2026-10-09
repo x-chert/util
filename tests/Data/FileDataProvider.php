@@ -46,6 +46,26 @@ class FileDataProvider
         return static::readFile(__DIR__.'/arrayutil_clone.php');
     }
 
+    public static function reflection_get_property(): iterable
+    {
+        return static::readFile(__DIR__.'/reflection_get_property.php');
+    }
+
+    public static function reflection_get_properties(): iterable
+    {
+        return static::readFile(__DIR__.'/reflection_get_properties.php');
+    }
+
+    public static function reflection_get_method(): iterable
+    {
+        return static::readFile(__DIR__.'/reflection_get_method.php');
+    }
+
+    public static function reflection_instantiate(): iterable
+    {
+        return static::readFile(__DIR__.'/reflection_instantiate.php');
+    }
+
     public static function readFile(string $file): iterable
     {
         if (!\file_exists($file) || !\is_readable($file)) {
