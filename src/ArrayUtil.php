@@ -21,8 +21,18 @@ class ArrayUtil
 
         $result = [];
 
+        /**
+         * @var mixed $key
+         * @var mixed $value
+         */
         foreach ($iterable as $key => $value) {
-            $result[$key] = $value;
+            if (\is_int($key)) {
+                $result[] = $value;
+
+                continue;
+            }
+
+            $result[(string)$key] = $value;
         }
 
         return $result;
