@@ -1,3 +1,18 @@
+# v1.1.0
+### New features
+
+* [#23 - [ISSUE-7] Add Random util class](https://github.com/x-chert/util/pull/23)
+* [#24 - Object instantiation](https://github.com/x-chert/util/pull/24)
+
+### Bugfixes
+
+* [#22 - Fix ArrayUtil::iteratorToArray for nested generators](https://github.com/x-chert/util/pull/22)
+
+### Other
+
+* [#25 - Improve unit tests](https://github.com/x-chert/util/pull/25)
+
+
 # v1.0.2
 ### New features
 
