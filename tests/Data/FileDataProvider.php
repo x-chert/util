@@ -21,6 +21,17 @@ class FileDataProvider
         return static::readFile(__DIR__.'/value_normalize.php');
     }
 
+    public static function type_get_type(): iterable
+    {
+        return static::readFile(__DIR__.'/type_get_type.php');
+    }
+
+    public static function type_is(): iterable
+    {
+        return static::readFile(__DIR__.'/type_is.php');
+    }
+
+
     public static function readFile(string $file): iterable
     {
         if (!\file_exists($file) || !\is_readable($file)) {

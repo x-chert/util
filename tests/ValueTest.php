@@ -32,7 +32,13 @@ class ValueTest extends TestCase
             $this->expectException($expectedException);
         }
 
-        $result = Value::normalize($value);
+        try {
+            $result = Value::normalize($value);
+        } finally {
+            if (\is_resource($value)) {
+                \fclose($value);
+            }
+        }
 
         $this->assertEquals($expected, $result);
     }
