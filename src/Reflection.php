@@ -54,4 +54,52 @@ class Reflection
 
         return $parentClass !== false ? static::getMethod($parentClass, $method, $ignoreStatic) : null;
     }
+
+    /**
+     * @throws \ReflectionException
+     */
+    public static function instantiate(\ReflectionClass $class): object
+    {
+        $constructor = $class->getConstructor();
+
+        if ($constructor === null) {
+            return $class->newInstance();
+        }
+
+        $params = static::getDefaultParameters($constructor);
+
+        if ($params !== null) {
+            return $class->newInstanceArgs($params);
+        }
+
+        return $class->newInstanceWithoutConstructor();
+    }
+
+    /**
+     * @throws \ReflectionException
+     */
+    public static function getDefaultParameters(\ReflectionMethod $method): ?array
+    {
+        $params = [];
+
+        /** @var \ReflectionParameter $parameter */
+        foreach ($method->getParameters() as $parameter) {
+            if ($parameter->isOptional()) {
+                $params[$parameter->getName()] = $parameter->getDefaultValue();
+
+                continue;
+            }
+
+            if ($parameter->allowsNull()) {
+                $params[$parameter->getName()] = null;
+
+                continue;
+            }
+
+            // If any parameter is not optional and not nullable, default parameters are not available
+            return null;
+        }
+
+        return $params;
+    }
 }
