@@ -26,10 +26,12 @@
 	"autoload": {
 		"psr-4": {
 			"Xchert\\Util\\": "src/"
-		},
-		"exclude-from-classmap": [
-			"src/Test/"
-		]
+		}
+	},
+	"autoload-dev": {
+		"psr-4": {
+			"Xchert\\Util\\Test\\": "tests/"
+		}
 	},
 	"require": {
 		"php": "^8.4"
