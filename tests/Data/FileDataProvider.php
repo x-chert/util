@@ -31,6 +31,20 @@ class FileDataProvider
         return static::readFile(__DIR__.'/type_is.php');
     }
 
+    public static function arrayutil_ensure(): iterable
+    {
+        return static::readFile(__DIR__.'/arrayutil_ensure.php');
+    }
+
+    public static function arrayutil_iterator_to_array(): iterable
+    {
+        return static::readFile(__DIR__.'/arrayutil_iterator_to_array.php');
+    }
+
+    public static function arrayutil_clone(): iterable
+    {
+        return static::readFile(__DIR__.'/arrayutil_clone.php');
+    }
 
     public static function readFile(string $file): iterable
     {
