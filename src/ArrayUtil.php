@@ -13,7 +13,7 @@ class ArrayUtil
         return $value === null ? [] : [$value];
     }
 
-    public static function iteratorToArray(iterable $iterable): array
+    public static function iteratorToArray(iterable $iterable, bool $preserveKeys = false): array
     {
         if (\is_array($iterable)) {
             return $iterable;
@@ -26,13 +26,13 @@ class ArrayUtil
          * @var mixed $value
          */
         foreach ($iterable as $key => $value) {
-            if (\is_int($key)) {
-                $result[] = $value;
+            if ($preserveKeys) {
+                $result[$key] = $value;
 
                 continue;
             }
 
-            $result[(string)$key] = $value;
+            $result[] = $value;
         }
 
         return $result;

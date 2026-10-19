@@ -24,10 +24,7 @@ return (function (): Generator {
                 yield 'key1' => 'value1';
                 yield 'key2' => 'value2';
             })(),
-            'expected' => [
-                'key1' => 'value1',
-                'key2' => 'value2'
-            ]
+            'expected' => ['value1', 'value2']
         ],
         'NestedGenerator' => [
             'iterator' => (function () {
@@ -53,11 +50,7 @@ return (function (): Generator {
                     yield from $item;
                 }
             })(),
-            'expected' => [
-                'foo1' => 'bar1',
-                'foo2' => 'bar2',
-                'foo3' => 'bar3'
-            ]
+            'expected' => ['bar1', 'bar2', 'bar1', 'bar3']
         ]
     ];
 })();
