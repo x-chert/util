@@ -1,3 +1,9 @@
+# v1.1.1
+### Bugfixes
+
+* [#27 - Only declared properties are considered](https://github.com/x-chert/util/pull/27)
+
+
 # v1.1.0
 ### New features
 
