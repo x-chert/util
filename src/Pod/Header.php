@@ -2,9 +2,8 @@
 
 declare(strict_types=1);
 
-namespace Xchert\Util;
+namespace Xchert\Util\Pod;
 
-use Xchert\Util\Pod\Pod;
 use Xchert\Util\Trait\FlagTrait;
 
 class Header extends Pod
