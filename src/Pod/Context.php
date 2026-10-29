@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Xchert\Util;
+namespace Xchert\Util\Pod;
 
-class Context
+class Context extends Pod
 {
     public readonly Header $header;
 
