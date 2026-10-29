@@ -1,3 +1,11 @@
+# v1.2.0
+### New features
+
+* [#29 - Preserve keys option for ArrayUtil::iteratorToArray](https://github.com/x-chert/util/pull/29)
+* [#30 - Added Context and Header](https://github.com/x-chert/util/pull/30)
+* [#31 - Moved Context and Header to Pod namespace](https://github.com/x-chert/util/pull/31)
+
+
 # v1.1.1
 ### Bugfixes
 
