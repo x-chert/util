@@ -54,23 +54,22 @@ class Type
 
     public static function is(mixed $value, string $type): bool
     {
-        if (\class_exists($type) || \interface_exists($type)) {
-            return $value instanceof $type;
-        }
-
-        $isFunction = \sprintf("is_%s", $type);
-
-        if ($type !== self::NUMERIC && \function_exists($isFunction)) {
-            return $isFunction($value);
-        }
-
-        $valueType = self::getType($value);
-
-        if ($type === self::NUMERIC) {
-            return self::isNumericType($valueType);
-        }
-
-        return $type === $valueType;
+        return match ($type) {
+            self::INT => \is_int($value),
+            self::BOOL => \is_bool($value),
+            self::FLOAT => \is_float($value),
+            self::STRING => \is_string($value),
+            self::ARRAY => \is_array($value),
+            self::OBJECT => \is_object($value),
+            self::NULL => $value === null,
+            self::NUMERIC => \is_int($value) || \is_float($value),
+            'callable' => \is_callable($value),
+            'iterable' => \is_iterable($value),
+            'resource' => \is_resource($value),
+            'countable' => \is_countable($value),
+            'scalar' => \is_scalar($value),
+            default => (\class_exists($type) || \interface_exists($type)) && $value instanceof $type,
+        };
     }
 
     public static function isStringConvertable(string $type): bool
