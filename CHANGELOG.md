@@ -1,3 +1,9 @@
+# v1.2.1
+### Bugfixes
+
+* [#33 - Type::is now considers real data types only](https://github.com/x-chert/util/pull/33)
+
+
 # v1.2.0
 ### New features
 
