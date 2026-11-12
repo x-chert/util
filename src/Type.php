@@ -67,7 +67,7 @@ class Type
             'iterable' => \is_iterable($value),
             'resource' => \is_resource($value),
             'countable' => \is_countable($value),
-            'scalar' => \is_scalar($value),
+            'scalar' => self::isScalar($value),
             default => (\class_exists($type) || \interface_exists($type)) && $value instanceof $type,
         };
     }
