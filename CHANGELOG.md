@@ -1,3 +1,9 @@
+# v1.2.2
+### Bugfixes
+
+* [#35 - Use internal isScalar method in Type::is](https://github.com/x-chert/util/pull/35)
+
+
 # v1.2.1
 ### Bugfixes
 
